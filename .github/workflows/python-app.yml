@@ -1,0 +1,27 @@
+name: Test github actions # 工作流名称
+ 
+on: # 触发工作流的条件
+  push:  # 推送时触发
+    branches: # branch分支筛选器
+      - main  # 名为main的分支
+  schedule: # 工作流的计划时间 （UTC0 为标准 UTC8要加8个小时）
+    - cron: '0 1 * * *'  # cron语法
+ 
+jobs: # 执行的工作
+  run_demo_actions: # job_id(需要运行的作业)
+    runs-on: ubuntu-latest # 运行作业的计算机类型，在最新版本的 Ubuntu 操作系统环境下运行
+    steps: # 要执行的任务步骤
+      - name: Checkout code 
+        uses: actions/checkout@v3  # 用于将github代码仓库的代码拷贝到工作目录中
+ 
+      - name: Set up Python
+        uses: actions/setup-python@v2 # 用于设置 Python 环境，它允许你指定要在工作环境中使用的 Python 版本
+        with: # 输入参数被设置为环境变量
+          python-version: '3.9'  # 选择要用的Python版本
+ 
+      - name: Install requirements.txt
+        run: | # shell命令行运行（每个run代表一个新的进程和shell） | 可以用来多行输入
+          pip install -r ./requirements.txt 
+ 
+      - name: Run main.py
+        run: python feishu_demo.py # 执行py文件    依据自己代码要运行的py情况而定
