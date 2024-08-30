@@ -1,4 +1,4 @@
-name: Test github actions # 工作流名称
+name: Feishu daily update and send message # 工作流名称
  
 on: # 触发工作流的条件
   push:  # 推送时触发
