@@ -41,7 +41,7 @@ def get_arxiv_datas(keyword,submission_date):
     search = arxiv.Search(
         query=query,
         max_results=100,
-        sort_by=arxiv.SortCriterion.SubmittedDate,
+        sort_by=arxiv.SortCriterion.LastUpdatedDate,
         sort_order=arxiv.SortOrder.Descending
     )
     

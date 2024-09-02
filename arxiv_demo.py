@@ -20,7 +20,7 @@ def get_arxiv_datas(keyword,submission_date):
     search = arxiv.Search(
         query=query,
         max_results=100,
-        sort_by=arxiv.SortCriterion.SubmittedDate,
+        sort_by=arxiv.SortCriterion.LastUpdatedDate,
         sort_order=arxiv.SortOrder.Descending
     )
     
@@ -55,6 +55,7 @@ def get_arxiv_datas(keyword,submission_date):
                     papers_data.append(feishu_paper_info)
             info_data = {"records":papers_data}
             payload = json.dumps(info_data)
+            num = len(info_data['records'])
             
             # json_name = f"{keyword}--{submission_date.date()}.json"
             # json_path = os.path.join(save_dir,json_name)
@@ -69,11 +70,13 @@ def get_arxiv_datas(keyword,submission_date):
             print("Reached an empty page, continuing to next set of results.")
             continue
         
-    return payload
+    return payload,num
 
 keywords = "quantum machine learning"
-
+paper_num = 0
 submission_date = datetime.now() - timedelta(days=1)
 # submission_date = datetime(2024, 7, 25)
-payload = get_arxiv_datas(keywords,submission_date)
+payload,num = get_arxiv_datas(keywords,submission_date)
+paper_num += num
 print(payload)
+print(num)
