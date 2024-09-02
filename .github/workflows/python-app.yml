@@ -5,7 +5,7 @@ on: # 触发工作流的条件
   #   branches: # branch分支筛选器
   #     - main  # 名为main的分支
   schedule: # 工作流的计划时间 （UTC0 为标准 UTC8要加8个小时）
-    - cron: '0 1 * * *'  # cron语法
+    - cron: '*/10 * * * *'  # cron语法
  
 jobs: # 执行的工作
   run_demo_actions: # job_id(需要运行的作业)
