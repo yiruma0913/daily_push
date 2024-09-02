@@ -11,9 +11,9 @@ jobs: # 执行的工作
   run_demo_actions: # job_id(需要运行的作业)
     runs-on: ubuntu-latest # 运行作业的计算机类型，在最新版本的 Ubuntu 操作系统环境下运行
     
-    concurrency: # 添加唯一触发控制，确保每次只执行一次
-      group: feishu_daily_update
-      cancel-in-progress: true
+    # concurrency: # 添加唯一触发控制，确保每次只执行一次
+    #   group: feishu_daily_update
+    #   cancel-in-progress: true
       
     steps: # 要执行的任务步骤
       - name: Checkout code 
