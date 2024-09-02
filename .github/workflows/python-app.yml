@@ -30,3 +30,7 @@ jobs: # 执行的工作
  
       - name: Run main.py
         run: python feishu_demo.py # 执行py文件    依据自己代码要运行的py情况而定
+    env:
+      # 设置敏感信息的环境变量
+      APP_ID: ${{ secrets.APP_ID }}
+      APP_SECRET: ${{ secrets.APP_SECRET }}

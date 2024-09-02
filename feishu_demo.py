@@ -3,6 +3,7 @@ import json
 from datetime import datetime,timedelta
 import arxiv
 import re
+import os
 
 def get_tenant_access_token(app_id, app_secret):
     url = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal"
@@ -92,8 +93,12 @@ def get_arxiv_datas(keyword,submission_date):
         
     return payload,num
     
-app_id = 'cli_a647fad3dc78500d'
-app_secret = 'B3LuYvv13rZaKjgiHyIb7gTDVnr18KFe'
+# app_id = 'cli_a647fad3dc78500d'
+# app_secret = 'B3LuYvv13rZaKjgiHyIb7gTDVnr18KFe'
+
+# 从环境变量中获取敏感信息
+app_id = os.getenv("APP_ID")
+app_secret = os.getenv("APP_SECRET")
 tenant_access_token = get_tenant_access_token(app_id,app_secret)
 app_token = 'ZMM2bIkPOaDyxNsJBKZcInFCnlc'
 table_id = 'tbl5DsCcQbnG0JbH'
