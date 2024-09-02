@@ -1,9 +1,9 @@
 name: Feishu daily update and send message # 工作流名称
  
 on: # 触发工作流的条件
-  # push:  # 推送时触发
-  #   branches: # branch分支筛选器
-  #     - main  # 名为main的分支
+  push:  # 推送时触发
+    branches: # branch分支筛选器
+      - main  # 名为main的分支
   schedule: # 工作流的计划时间 （UTC0 为标准 UTC8要加8个小时）
     - cron: '*/10 * * * *'  # cron语法
  
