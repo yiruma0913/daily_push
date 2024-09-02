@@ -74,7 +74,7 @@ def get_arxiv_datas(keyword,submission_date):
 
 keywords = "quantum machine learning"
 paper_num = 0
-submission_date = datetime.now() - timedelta(days=1)
+submission_date = datetime.now() - timedelta(days=3)
 # submission_date = datetime(2024, 7, 25)
 payload,num = get_arxiv_datas(keywords,submission_date)
 paper_num += num

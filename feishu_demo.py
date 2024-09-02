@@ -104,15 +104,18 @@ app_token = 'ZMM2bIkPOaDyxNsJBKZcInFCnlc'
 table_id = 'tbl5DsCcQbnG0JbH'
 
 # keywords = "quantum machine learning"
-keywords = ["quantum machine learning","quantum error mitigation"]
-submission_date = datetime.now() - timedelta(days=1)
+keywords = ["quantum machine learning","quantum error mitigation","QAOA","quantum compiling","quantum algorithm"]
+submission_date = datetime.now() - timedelta(days=3)
 # submission_date = datetime(2024, 7, 25)
 
 paper_num = 0
+name_list = []
 for keyword in keywords:
     payload,num = get_arxiv_datas(keyword,submission_date)
     paper_num += num
-    upload_bitable_datas(tenant_access_token, app_token, table_id,payload)
+    if num != 0:
+        name_list.append(keyword)
+        upload_bitable_datas(tenant_access_token, app_token, table_id,payload)
 
 
 # 定义起始日期
@@ -148,10 +151,18 @@ def send_messages(text_content,chat_id):
     
     response = requests.request("POST", url, headers=headers, data=payload)
     print(response.text)
-    
+
+# 每日更新论文的name
+name = ",".join(name_list)
+
 at_content = "<at user_id=\\\"all\\\"></at>"
 link_content = "[每日论文更新](https://scn0xfel4hbc.feishu.cn/base/ZMM2bIkPOaDyxNsJBKZcInFCnlc?table=tbl5DsCcQbnG0JbH&view=vewu9R1ebn)"
-main_content = f"今日论文更新共计{paper_num}篇，包含方向有：quantum error mitigation,quantum machine learning，欢迎大家点击链接阅读"
-text_content = at_content + " " + main_content + "\\n" + link_content
+main_content = f"{submission_date.date()}论文更新共计{paper_num}篇，包含方向有：{name}，欢迎大家点击链接阅读"
+# text_content = at_content + " " + main_content + "\\n" + link_content
+
+if paper_num == 0:
+    text_content = at_content + "昨日无论文更新，往日论文链接" + "\\n" + link_content
+else:
+    text_content = at_content + " " + main_content + "\\n" + link_content
 
 send_messages(text_content,chat_id)
