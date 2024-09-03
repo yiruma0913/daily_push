@@ -5,6 +5,18 @@ import arxiv
 import re
 import os
 
+# 定义起始日期
+start_date = datetime(2024, 8, 20)
+# 定义结束日期
+end_date = datetime(2024, 8, 28)
+
+def supply_date_data(start_date,end_date):
+    current_date = start_date
+    while current_date <= end_date:
+        main()
+        # print(current_date.strftime('%Y-%m-%d'))  # 格式化输出日期
+        current_date += timedelta(days=1)  # 每次循环增加一天
+
 def sanitize_filename(title):
     # 替换非法字符并修剪长度
     title = re.sub(r'[<>:"/\\|?*]', '', title)  # 移除非法字符
@@ -196,11 +208,11 @@ def main():
 
 
 if __name__ == "__main__":
-    # app_id = 'cli_a647fad3dc78500d'
-    # app_secret = 'B3LuYvv13rZaKjgiHyIb7gTDVnr18KFe'
+    app_id = 'cli_a647fad3dc78500d'
+    app_secret = 'B3LuYvv13rZaKjgiHyIb7gTDVnr18KFe'
     # 从环境变量中获取敏感信息
-    app_id = os.getenv("APP_ID")
-    app_secret = os.getenv("APP_SECRET")
+    # app_id = os.getenv("APP_ID")
+    # app_secret = os.getenv("APP_SECRET")
     
     app_token = 'ZMM2bIkPOaDyxNsJBKZcInFCnlc'
     table_id = 'tbl5DsCcQbnG0JbH'
@@ -214,5 +226,12 @@ if __name__ == "__main__":
     submission_date = datetime.now() - timedelta(days=1)
     # submission_date = datetime(2024, 7, 25)
     
-    main()
-    
+    # 补全之前日期的论文
+    # 定义起始日期
+    start_date = datetime(2024, 9, 1)
+    # 定义结束日期
+    end_date = datetime(2024, 9, 2)
+    submission_date = start_date
+    while submission_date <= end_date:
+        main()
+        submission_date += timedelta(days=1)
