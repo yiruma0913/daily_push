@@ -1,4 +1,3 @@
-from numpy import empty
 import requests
 import json
 from datetime import datetime,timedelta
