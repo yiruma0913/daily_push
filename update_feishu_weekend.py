@@ -5,19 +5,6 @@ import arxiv
 import re
 import os
 
-# 定义起始日期
-start_date = datetime(2024, 8, 20)
-# 定义结束日期
-end_date = datetime(2024, 8, 28)
-
-
-def supply_date_data(start_date, end_date):
-    current_date = start_date
-    while current_date <= end_date:
-        main()
-        # print(current_date.strftime('%Y-%m-%d'))  # 格式化输出日期
-        current_date += timedelta(days=1)  # 每次循环增加一天
-
 
 def sanitize_filename(title):
     # 替换非法字符并修剪长度
@@ -233,15 +220,10 @@ if __name__ == "__main__":
         "quantum compiling",
         "quantum algorithm",
     ]
-    submission_date = datetime.now() - timedelta(days=1)
-    # submission_date = datetime(2024, 7, 25)
 
-    # 补全之前日期的论文
-    # 定义起始日期
-    start_date = datetime(2024, 9, 1)
-    # 定义结束日期
-    end_date = datetime(2024, 9, 2)
-    submission_date = start_date
+    submission_date = datetime.now() - timedelta(days=3)
+    # submission_date = datetime(2024, 7, 25)
+    end_date = datetime.now() - timedelta(days=1)
     while submission_date <= end_date:
         main()
         submission_date += timedelta(days=1)
