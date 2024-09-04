@@ -199,11 +199,11 @@ def main():
 
 
 if __name__ == "__main__":
-    app_id = "cli_a647fad3dc78500d"
-    app_secret = "B3LuYvv13rZaKjgiHyIb7gTDVnr18KFe"
+    # app_id = "cli_a647fad3dc78500d"
+    # app_secret = "B3LuYvv13rZaKjgiHyIb7gTDVnr18KFe"
     # 从环境变量中获取敏感信息
-    # app_id = os.getenv("APP_ID")
-    # app_secret = os.getenv("APP_SECRET")
+    app_id = os.getenv("APP_ID")
+    app_secret = os.getenv("APP_SECRET")
 
     app_token = "ZMM2bIkPOaDyxNsJBKZcInFCnlc"
     table_id = "tbl5DsCcQbnG0JbH"
