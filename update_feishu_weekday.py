@@ -127,7 +127,7 @@ def get_arxiv_datas(keywords_lsit, submission_date):
         query = f"all:{keyword} AND cat:{category}"
 
         # 搜索 arxiv
-        client = arxiv.Client(page_size=50, delay_seconds=5)
+        client = arxiv.Client(page_size=100, delay_seconds=5)
         search = arxiv.Search(
             query=query,
             max_results=100,

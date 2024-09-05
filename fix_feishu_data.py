@@ -140,7 +140,7 @@ def get_arxiv_datas(keywords_lsit, submission_date):
         query = f"all:{keyword} AND cat:{category}"
 
         # 搜索 arxiv
-        client = arxiv.Client(page_size=50, delay_seconds=5)
+        client = arxiv.Client(page_size=100, delay_seconds=5)
         search = arxiv.Search(
             query=query,
             max_results=100,
@@ -234,15 +234,15 @@ if __name__ == "__main__":
         "quantum algorithm",
     ]
     # submission_date = datetime.now() - timedelta(days=1)
-    # submission_date = datetime(2024, 8, 31)
+    submission_date = datetime(2024, 9, 4)
 
     # 补全之前日期的论文
-    # 定义起始日期
-    start_date = datetime(2024, 8, 31)
-    # 定义结束日期
-    end_date = datetime(2024, 9, 2)
-    submission_date = start_date
-    while submission_date <= end_date:
-        main()
-        submission_date += timedelta(days=1)
-    # main()
+    # # 定义起始日期
+    # start_date = datetime(2024, 8, 31)
+    # # 定义结束日期
+    # end_date = datetime(2024, 9, 2)
+    # submission_date = start_date
+    # while submission_date <= end_date:
+    #     main()
+    #     submission_date += timedelta(days=1)
+    main()
