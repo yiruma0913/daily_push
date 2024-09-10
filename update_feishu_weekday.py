@@ -231,8 +231,8 @@ if __name__ == "__main__":
     table_id = "tbl5DsCcQbnG0JbH"
     view_id = "vewu9R1ebn"
 
-    # chat_id = 'oc_d2ce116cf4a34227195daf8a0281730e' # 量子算法群
-    chat_id = "oc_82d99fc295c740ebbbc8764dbcfdc15f"  # test
+    chat_id = 'oc_d2ce116cf4a34227195daf8a0281730e' # 量子算法群
+    # chat_id = "oc_82d99fc295c740ebbbc8764dbcfdc15f"  # test
 
     # keywords = "quantum machine learning"
     keywords_list = [
