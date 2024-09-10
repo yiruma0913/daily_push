@@ -5,19 +5,6 @@ import arxiv
 import re
 import os
 
-# 定义起始日期
-start_date = datetime(2024, 8, 20)
-# 定义结束日期
-end_date = datetime(2024, 8, 28)
-
-
-def supply_date_data(start_date, end_date):
-    current_date = start_date
-    while current_date <= end_date:
-        main()
-        # print(current_date.strftime('%Y-%m-%d'))  # 格式化输出日期
-        current_date += timedelta(days=1)  # 每次循环增加一天
-
 
 def sanitize_filename(title):
     # 替换非法字符并修剪长度
@@ -32,6 +19,16 @@ def dateto13timestamp(submission_date):
     # 获取秒级时间戳并转换为毫秒级时间戳
     timestamp_ms = int(dt.timestamp() * 1000)
     return timestamp_ms
+
+
+def extractParenthesesContent(keyword):
+    start = keyword.find("(")
+    end = keyword.find(")")
+    if start != -1 and end != -1:
+        result = keyword[start + 1 : end]
+        return result
+    else:
+        return keyword
 
 
 def get_tenant_access_token(app_id, app_secret):
@@ -135,9 +132,17 @@ def get_arxiv_datas(keywords_lsit, submission_date):
     papers_data_list = []
     existed_name = set()
     for keyword in keywords_lsit:
-        category = "quant-ph"
-        # 构建查询字符串
-        query = f"all:{keyword} AND cat:{category}"
+        if "+" in keyword:
+            parts = keyword.split("+")
+            part_before_plus = parts[0]
+            part_after_plus = parts[1]
+            query = f"abs:%22{part_before_plus}%22 AND abs:%22{part_after_plus}%22"
+        else:
+            category = "quant-ph"
+            if "(" in keyword or ")" in keyword:
+                query = f"abs:{keyword} AND cat:{category}"
+            else:  # 构建查询字符串
+                query = f"abs:%22{keyword}%22 AND cat:{category}"
 
         # 搜索 arxiv
         client = arxiv.Client(page_size=100, delay_seconds=5)
@@ -147,6 +152,8 @@ def get_arxiv_datas(keywords_lsit, submission_date):
             sort_by=arxiv.SortCriterion.LastUpdatedDate,
             sort_order=arxiv.SortOrder.Descending,
         )
+
+        keyword_short_name = extractParenthesesContent(keyword)
 
         # 跳过经常出现的UnexpectedEmptyPageError
         while True:
@@ -168,14 +175,16 @@ def get_arxiv_datas(keywords_lsit, submission_date):
                                 "摘要": paper_abstract,
                                 "PDF链接": {"link": paper_url},
                                 "更新日期": timestamp_ms,
-                                "研究方向": [keyword],
+                                "研究方向": [keyword_short_name],
                             }
                             feishu_paper_info = {"fields": paper_info}
                             papers_data_list.append(feishu_paper_info)
                         else:
                             for papers_data in papers_data_list:
                                 if papers_data["fields"]["题目"] == paper_name:
-                                    papers_data["fields"]["研究方向"].append(keyword)
+                                    papers_data["fields"]["研究方向"].append(
+                                        keyword_short_name
+                                    )
 
                         existed_name.add(paper_name)
 
@@ -225,16 +234,33 @@ if __name__ == "__main__":
     # chat_id = 'oc_d2ce116cf4a34227195daf8a0281730e' # 量子算法群
     chat_id = "oc_82d99fc295c740ebbbc8764dbcfdc15f"  # test
 
-    # keywords_list = ["quantum algorithm"]
+    # keywords_list = ["variational quantum algorithm(VQA)"]
+    # keywords_list = ["reinforcement learning+optimization"]
     keywords_list = [
         "quantum machine learning",
         "quantum error mitigation",
-        "QAOA",
         "quantum compiling",
         "quantum algorithm",
+        "Quantum Amplitude Amplification",
+        "quantum circuit knitting",
+        "quantum simulation",
+        "quantum walk",
+        "Grover Algorithm",
+        "Shor Algorithm",
+        "HHL Algorithm",
+        "reinforcement learning+stock trading",
+        "reinforcement learning+optimization",
+        "large language model+fine tuning",
+        "Quantum Approximate Optimization Algorithm(QAOA)",
+        "variational quantum algorithm(VQA)",
+        "Quantum Fourier Transform(QFT)",
+        "Quantum Phase Estimation(QPE)",
+        "Quantum Amplitude Estimation(QAE)",
+        "Variation Quantum Estimation(VQE)",
+        "Variation Quantum Deflation(VQD)",
     ]
     # submission_date = datetime.now() - timedelta(days=1)
-    submission_date = datetime(2024, 9, 4)
+    submission_date = datetime(2024, 9, 6)
 
     # 补全之前日期的论文
     # # 定义起始日期

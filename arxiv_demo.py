@@ -15,10 +15,11 @@ def sanitize_filename(title):
 def get_arxiv_datas(keyword, submission_date):
     category = "quant-ph"
     # 构建查询字符串
-    query = f"all:{keyword} AND cat:{category}"
+    query = f"abs:{keyword} AND cat:{category}"
+    # query = f"all:%22{keyword1}%22 AND all:%22{keyword2}%22"
 
     # 搜索 arxiv
-    client = arxiv.Client(page_size=50, delay_seconds=5)
+    client = arxiv.Client(page_size=100, delay_seconds=5)
     search = arxiv.Search(
         query=query,
         max_results=100,
@@ -75,9 +76,11 @@ def get_arxiv_datas(keyword, submission_date):
     return payload, num
 
 
-keywords = "quantum machine learning"
+# keywords1 = "large language model"
+# keywords2 = "fine tuning"
+keywords = "quantum algorithm"
 paper_num = 0
-submission_date = datetime.now() - timedelta(days=3)
+submission_date = datetime.now() - timedelta(days=1)
 # submission_date = datetime(2024, 7, 25)
 payload, num = get_arxiv_datas(keywords, submission_date)
 paper_num += num

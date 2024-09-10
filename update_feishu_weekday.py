@@ -21,6 +21,16 @@ def dateto13timestamp(submission_date):
     return timestamp_ms
 
 
+def extractParenthesesContent(keyword):
+    start = keyword.find("(")
+    end = keyword.find(")")
+    if start != -1 and end != -1:
+        result = keyword[start + 1 : end]
+        return result
+    else:
+        return keyword
+
+
 def get_tenant_access_token(app_id, app_secret):
     url = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal"
     payload = json.dumps({"app_id": app_id, "app_secret": app_secret})
@@ -122,9 +132,17 @@ def get_arxiv_datas(keywords_lsit, submission_date):
     papers_data_list = []
     existed_name = set()
     for keyword in keywords_lsit:
-        category = "quant-ph"
-        # 构建查询字符串
-        query = f"all:{keyword} AND cat:{category}"
+        if "+" in keyword:
+            parts = keyword.split("+")
+            part_before_plus = parts[0]
+            part_after_plus = parts[1]
+            query = f"abs:%22{part_before_plus}%22 AND abs:%22{part_after_plus}%22"
+        else:
+            category = "quant-ph"
+            if "(" in keyword or ")" in keyword:
+                query = f"abs:{keyword} AND cat:{category}"
+            else:  # 构建查询字符串
+                query = f"abs:%22{keyword}%22 AND cat:{category}"
 
         # 搜索 arxiv
         client = arxiv.Client(page_size=100, delay_seconds=5)
@@ -134,6 +152,8 @@ def get_arxiv_datas(keywords_lsit, submission_date):
             sort_by=arxiv.SortCriterion.LastUpdatedDate,
             sort_order=arxiv.SortOrder.Descending,
         )
+
+        keyword_short_name = extractParenthesesContent(keyword)
 
         # 跳过经常出现的UnexpectedEmptyPageError
         while True:
@@ -155,14 +175,16 @@ def get_arxiv_datas(keywords_lsit, submission_date):
                                 "摘要": paper_abstract,
                                 "PDF链接": {"link": paper_url},
                                 "更新日期": timestamp_ms,
-                                "研究方向": [keyword],
+                                "研究方向": [keyword_short_name],
                             }
                             feishu_paper_info = {"fields": paper_info}
                             papers_data_list.append(feishu_paper_info)
                         else:
                             for papers_data in papers_data_list:
                                 if papers_data["fields"]["题目"] == paper_name:
-                                    papers_data["fields"]["研究方向"].append(keyword)
+                                    papers_data["fields"]["研究方向"].append(
+                                        keyword_short_name
+                                    )
 
                         existed_name.add(paper_name)
 
@@ -216,10 +238,27 @@ if __name__ == "__main__":
     keywords_list = [
         "quantum machine learning",
         "quantum error mitigation",
-        "QAOA",
         "quantum compiling",
         "quantum algorithm",
+        "Quantum Amplitude Amplification",
+        "quantum circuit knitting",
+        "quantum simulation",
+        "quantum walk",
+        "Grover Algorithm",
+        "Shor Algorithm",
+        "HHL Algorithm",
+        "reinforcement learning+stock trading",
+        "reinforcement learning+optimization",
+        "large language model+fine tuning",
+        "Quantum Approximate Optimization Algorithm(QAOA)",
+        "variational quantum algorithm(VQA)",
+        "Quantum Fourier Transform(QFT)",
+        "Quantum Phase Estimation(QPE)",
+        "Quantum Amplitude Estimation(QAE)",
+        "Variation Quantum Estimation(VQE)",
+        "Variation Quantum Deflation(VQD)",
     ]
+
     submission_date = datetime.now() - timedelta(days=1)
     # submission_date = datetime(2024, 7, 25)
 

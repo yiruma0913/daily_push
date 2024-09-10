@@ -5,7 +5,7 @@ on: # 触发工作流的条件
     branches: # branch分支筛选器
       - main  # 名为main的分支
   schedule: # 工作流的计划时间 （UTC0 为标准 UTC8要加8个小时）
-    - cron: '0 5 * * 1-5'  # cron语法
+    - cron: '0 5 * * 2-6'  # cron语法
  
 jobs: # 执行的工作
   run_demo_actions: # job_id(需要运行的作业)
@@ -28,12 +28,12 @@ jobs: # 执行的工作
         run: | # shell命令行运行（每个run代表一个新的进程和shell） | 可以用来多行输入
           pip install -r ./requirements.txt 
  
-      - name: Run update_feishu_weekend.py on Monday
-        if: ${{ github.event.schedule == '0 2 * * 1' }} # 如果是周一
+      - name: Run update_feishu_weekend.py on Tuesday
+        if: ${{ github.event.schedule == '0 2 * * 2' }} # 如果是周二
         run: python update_feishu_weekend.py
   
-      - name: Run update_feishu_weekday.py on Tuesday to Friday
-        if: ${{ github.event.schedule != '0 2 * * 1' }} # 如果是周二到周五
+      - name: Run update_feishu_weekday.py on Wednesday to Saturday
+        if: ${{ github.event.schedule != '0 2 * * 2' }} # 如果是周三到周六
         run: python update_feishu_weekday.py
     env:
       # 设置敏感信息的环境变量
