@@ -29,11 +29,11 @@ jobs: # 执行的工作
           pip install -r ./requirements.txt 
  
       - name: Run update_feishu_weekend.py on Tuesday
-        if: ${{ github.event.schedule == '0 2 * * 2' }} # 如果是周二
+        if: ${{ github.event.schedule == '0 5 * * 2' }} # 如果是周二
         run: python update_feishu_weekend.py
   
       - name: Run update_feishu_weekday.py on Wednesday to Saturday
-        if: ${{ github.event.schedule != '0 2 * * 2' }} # 如果是周三到周六
+        if: ${{ github.event.schedule != '0 5 * * 2' }} # 如果是周三到周六
         run: python update_feishu_weekday.py
     env:
       # 设置敏感信息的环境变量

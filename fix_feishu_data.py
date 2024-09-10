@@ -260,15 +260,15 @@ if __name__ == "__main__":
         "Variation Quantum Deflation(VQD)",
     ]
     # submission_date = datetime.now() - timedelta(days=1)
-    submission_date = datetime(2024, 9, 6)
+    # submission_date = datetime(2024, 9, 6)
 
     # 补全之前日期的论文
     # # 定义起始日期
-    # start_date = datetime(2024, 8, 31)
-    # # 定义结束日期
-    # end_date = datetime(2024, 9, 2)
-    # submission_date = start_date
-    # while submission_date <= end_date:
-    #     main()
-    #     submission_date += timedelta(days=1)
-    main()
+    start_date = datetime(2024, 9, 7)
+    # 定义结束日期
+    end_date = datetime(2024, 9, 9)
+    submission_date = start_date
+    while submission_date <= end_date:
+        main()
+        submission_date += timedelta(days=1)
+    # main()
