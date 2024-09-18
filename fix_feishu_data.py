@@ -217,7 +217,7 @@ def main():
         tenant_access_token, app_token, table_id
     )
     text_content = combine_text_content(paper_num, keywords_name)
-    send_messages(tenant_access_token, text_content, chat_id)
+    # send_messages(tenant_access_token, text_content, chat_id)
 
 
 if __name__ == "__main__":
@@ -264,9 +264,9 @@ if __name__ == "__main__":
 
     # 补全之前日期的论文
     # # 定义起始日期
-    start_date = datetime(2024, 9, 7)
+    start_date = datetime(2024, 9, 13)
     # 定义结束日期
-    end_date = datetime(2024, 9, 9)
+    end_date = datetime(2024, 9, 15)
     submission_date = start_date
     while submission_date <= end_date:
         main()
