@@ -43,6 +43,7 @@ jobs: # 执行的工作
           else
             echo "Running weekday script (Tuesday to Friday)"
             python update_feishu_weekday.py
+          fi # 关闭if语句
     env:
       # 设置敏感信息的环境变量
       APP_ID: ${{ secrets.APP_ID }}
