@@ -217,25 +217,24 @@ def main():
         tenant_access_token, app_token, table_id
     )
     text_content = combine_text_content(paper_num, keywords_name)
-    # send_messages(tenant_access_token, text_content, chat_id)
+    send_messages(tenant_access_token, text_content, chat_id)
 
 
 if __name__ == "__main__":
-    app_id = "cli_a647fad3dc78500d"
-    app_secret = "B3LuYvv13rZaKjgiHyIb7gTDVnr18KFe"
+    # app_id = 'cli_a647fad3dc78500d'
+    # app_secret = 'B3LuYvv13rZaKjgiHyIb7gTDVnr18KFe'
     # 从环境变量中获取敏感信息
-    # app_id = os.getenv("APP_ID")
-    # app_secret = os.getenv("APP_SECRET")
+    app_id = os.getenv("APP_ID")
+    app_secret = os.getenv("APP_SECRET")
 
     app_token = "ZMM2bIkPOaDyxNsJBKZcInFCnlc"
     table_id = "tbl5DsCcQbnG0JbH"
     view_id = "vewu9R1ebn"
 
-    # chat_id = 'oc_d2ce116cf4a34227195daf8a0281730e' # 量子算法群
-    chat_id = "oc_82d99fc295c740ebbbc8764dbcfdc15f"  # test
+    chat_id = "oc_d2ce116cf4a34227195daf8a0281730e"  # 量子算法群
+    # chat_id = "oc_82d99fc295c740ebbbc8764dbcfdc15f"  # test
 
-    # keywords_list = ["variational quantum algorithm(VQA)"]
-    # keywords_list = ["reinforcement learning+optimization"]
+    # keywords = "quantum machine learning"
     keywords_list = [
         "quantum machine learning",
         "quantum error mitigation",
@@ -259,16 +258,8 @@ if __name__ == "__main__":
         "Variation Quantum Estimation(VQE)",
         "Variation Quantum Deflation(VQD)",
     ]
-    # submission_date = datetime.now() - timedelta(days=1)
-    # submission_date = datetime(2024, 9, 6)
 
-    # 补全之前日期的论文
-    # # 定义起始日期
-    start_date = datetime(2024, 9, 21)
-    # 定义结束日期
-    end_date = datetime(2024, 9, 22)
-    submission_date = start_date
-    while submission_date <= end_date:
-        main()
-        submission_date += timedelta(days=1)
-    # main()
+    submission_date = datetime.now() - timedelta(days=3)
+    # submission_date = datetime(2024, 7, 25)
+
+    main()

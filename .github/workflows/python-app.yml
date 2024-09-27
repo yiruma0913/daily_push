@@ -38,11 +38,16 @@ jobs: # 执行的工作
         run: |
           DAY_OF_WEEK=$(date -u +'%u')
           if [ "$DAY_OF_WEEK" -eq 1 ]; then  # 判断是否是周一
-            echo "Running weekend script (Monday)"
-            python update_feishu_weekend.py
-          else
-            echo "Running weekday script (Tuesday to Friday)"
+            echo "Running Monday script"
+            python update_feishu_Monday.py
+          elif [ "$DAY_OF_WEEK" -eq 2 ]; then  # 判断是否是周二
+            echo "Running Tuesday script"
+            python update_feishu_Tuesday.py
+          elif [ "$DAY_OF_WEEK" -ge 3 ] && [ "$DAY_OF_WEEK" -le 5 ]; then  # 判断是否是周三到周五
+            echo "Running weekday script (Wednesday to Friday)"
             python update_feishu_weekday.py
+          else
+            echo "This script should not run on weekends"
           fi # 关闭if语句
     env:
       # 设置敏感信息的环境变量

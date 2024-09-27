@@ -15,7 +15,7 @@ def sanitize_filename(title):
 
 def dateto13timestamp(submission_date):
     # 将datetime对象转换为timestamp对象
-    dt = datetime.combine(submission_date.date(), datetime.min.time())
+    dt = datetime.combine(submission_date, datetime.min.time())
     # 获取秒级时间戳并转换为毫秒级时间戳
     timestamp_ms = int(dt.timestamp() * 1000)
     return timestamp_ms
@@ -128,7 +128,7 @@ def combine_text_content(paper_num, keywords_name):
     return text_content
 
 
-def get_arxiv_datas(keywords_lsit, submission_date):
+def get_arxiv_datas(keywords_lsit, specified_date):
     papers_data_list = []
     existed_name = set()
     for keyword in keywords_lsit:
@@ -159,14 +159,15 @@ def get_arxiv_datas(keywords_lsit, submission_date):
         while True:
             try:
                 for result in client.results(search):
-                    if result.updated.date() == submission_date.date():
+                    if result.updated.date() >= specified_date.date():
 
                         paper_name = sanitize_filename(result.title)
                         paper_abstract = result.summary
                         paper_authors = ",".join(i.name for i in result.authors)
                         paper_url = result.pdf_url
-
-                        timestamp_ms = dateto13timestamp(submission_date)
+                        paper_uploaded_date = result.updated.date()
+                        
+                        timestamp_ms = dateto13timestamp(paper_uploaded_date)
 
                         if paper_name not in existed_name:
                             paper_info = {
@@ -188,17 +189,17 @@ def get_arxiv_datas(keywords_lsit, submission_date):
 
                         existed_name.add(paper_name)
 
-                # info_data = {"records":papers_data}
-                # payload = json.dumps(info_data)
+                    # info_data = {"records":papers_data}
+                    # payload = json.dumps(info_data)
 
-                # json_name = f"{keyword}--{submission_date.date()}.json"
-                # json_path = os.path.join(save_dir,json_name)
-                # if not os.path.exists(json_path):
-                #     # 保存所有文章信息到 JSON 文件
-                #     with open(json_path, 'w') as json_file:
-                #         json.dump(papers_data, json_file, indent=4)
-                # else:
-                #     print(f"{json_name} already exists")
+                    # json_name = f"{keyword}--{submission_date.date()}.json"
+                    # json_path = os.path.join(save_dir,json_name)
+                    # if not os.path.exists(json_path):
+                    #     # 保存所有文章信息到 JSON 文件
+                    #     with open(json_path, 'w') as json_file:
+                    #         json.dump(papers_data, json_file, indent=4)
+                    # else:
+                    #     print(f"{json_name} already exists")
                 break
             except arxiv.UnexpectedEmptyPageError:
                 print("Reached an empty page, continuing to next set of results.")
@@ -209,14 +210,14 @@ def get_arxiv_datas(keywords_lsit, submission_date):
 
 def main():
     tenant_access_token = get_tenant_access_token(app_id, app_secret)
-    papers_data_list = get_arxiv_datas(keywords_list, submission_date)
+    papers_data_list = get_arxiv_datas(keywords_list, specified_date)
     upload_data = json.dumps({"records": papers_data_list})
     if papers_data_list:
         upload_bitable_datas(tenant_access_token, app_token, table_id, upload_data)
-    paper_num, keywords_name = get_update_paper_num(
-        tenant_access_token, app_token, table_id
-    )
-    text_content = combine_text_content(paper_num, keywords_name)
+    # paper_num, keywords_name = get_update_paper_num(
+    #     tenant_access_token, app_token, table_id
+    # )
+    # text_content = combine_text_content(paper_num, keywords_name)
     # send_messages(tenant_access_token, text_content, chat_id)
 
 
@@ -228,47 +229,20 @@ if __name__ == "__main__":
     # app_secret = os.getenv("APP_SECRET")
 
     app_token = "ZMM2bIkPOaDyxNsJBKZcInFCnlc"
-    table_id = "tbl5DsCcQbnG0JbH"
-    view_id = "vewu9R1ebn"
+    table_id = "tbl5MB5Kd8E6S9eW"
+    view_id = "ewu9R1ebn"
 
-    # chat_id = 'oc_d2ce116cf4a34227195daf8a0281730e' # 量子算法群
-    chat_id = "oc_82d99fc295c740ebbbc8764dbcfdc15f"  # test
+    chat_id = "oc_d2ce116cf4a34227195daf8a0281730e"  # 量子算法群
+    # chat_id = "oc_82d99fc295c740ebbbc8764dbcfdc15f"  # test
 
-    # keywords_list = ["variational quantum algorithm(VQA)"]
-    # keywords_list = ["reinforcement learning+optimization"]
+    # keywords = "quantum machine learning"
     keywords_list = [
-        "quantum machine learning",
-        "quantum error mitigation",
-        "quantum compiling",
-        "quantum algorithm",
-        "Quantum Amplitude Amplification",
-        "quantum circuit knitting",
-        "quantum simulation",
-        "quantum walk",
-        "Grover Algorithm",
-        "Shor Algorithm",
-        "HHL Algorithm",
-        "reinforcement learning+stock trading",
-        "reinforcement learning+optimization",
-        "large language model+fine tuning",
-        "Quantum Approximate Optimization Algorithm(QAOA)",
-        "variational quantum algorithm(VQA)",
-        "Quantum Fourier Transform(QFT)",
-        "Quantum Phase Estimation(QPE)",
-        "Quantum Amplitude Estimation(QAE)",
-        "Variation Quantum Estimation(VQE)",
-        "Variation Quantum Deflation(VQD)",
+        "distributed quantum algorithm",
+        "distributed quantum computing",
+        "circuit knitting",
     ]
-    # submission_date = datetime.now() - timedelta(days=1)
-    # submission_date = datetime(2024, 9, 6)
 
-    # 补全之前日期的论文
-    # # 定义起始日期
-    start_date = datetime(2024, 9, 21)
-    # 定义结束日期
-    end_date = datetime(2024, 9, 22)
-    submission_date = start_date
-    while submission_date <= end_date:
-        main()
-        submission_date += timedelta(days=1)
-    # main()
+    # submission_date = datetime.now() - timedelta(days=1)
+    specified_date = datetime(2022, 1, 1)
+
+    main()

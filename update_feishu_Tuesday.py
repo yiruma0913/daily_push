@@ -14,7 +14,7 @@ def sanitize_filename(title):
 
 
 def dateto13timestamp(submission_date):
-    # 将date对象转换为datetime对象
+    # 将datetime对象转换为timestamp对象
     dt = datetime.combine(submission_date.date(), datetime.min.time())
     # 获取秒级时间戳并转换为毫秒级时间戳
     timestamp_ms = int(dt.timestamp() * 1000)
