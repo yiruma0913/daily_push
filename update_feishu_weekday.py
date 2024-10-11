@@ -257,6 +257,9 @@ if __name__ == "__main__":
         "Quantum Amplitude Estimation(QAE)",
         "Variation Quantum Estimation(VQE)",
         "Variation Quantum Deflation(VQD)",
+        "distributed quantum algorithm",
+        "distributed quantum computing",
+        "circuit knitting",
     ]
 
     submission_date = datetime.now() - timedelta(days=1)
