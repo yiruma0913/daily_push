@@ -216,7 +216,7 @@ def main():
     paper_num, keywords_name = get_update_paper_num(
         tenant_access_token, app_token, table_id
     )
-    text_content = combine_text_content(paper_num, keywords_name)
+    # text_content = combine_text_content(paper_num, keywords_name)
     # send_messages(tenant_access_token, text_content, chat_id)
 
 
@@ -258,15 +258,19 @@ if __name__ == "__main__":
         "Quantum Amplitude Estimation(QAE)",
         "Variation Quantum Estimation(VQE)",
         "Variation Quantum Deflation(VQD)",
+        "distributed quantum algorithm",
+        "distributed quantum computing",
+        "circuit knitting",
+        "quantum noise model",
     ]
     # submission_date = datetime.now() - timedelta(days=1)
     # submission_date = datetime(2024, 9, 6)
 
     # 补全之前日期的论文
     # # 定义起始日期
-    start_date = datetime(2024, 9, 21)
+    start_date = datetime(2024, 10, 16)
     # 定义结束日期
-    end_date = datetime(2024, 9, 22)
+    end_date = datetime(2024, 10, 16)
     submission_date = start_date
     while submission_date <= end_date:
         main()
