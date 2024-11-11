@@ -260,7 +260,7 @@ if __name__ == "__main__":
         "distributed quantum algorithm",
         "distributed quantum computing",
         "circuit knitting",
-        "quantum noise model",
+        "quantum noise",
     ]
 
     submission_date = datetime.now() - timedelta(days=1)
